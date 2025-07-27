@@ -44,16 +44,23 @@
         to { transform: translateY(0); opacity: 1; }
     }
 
-    h1.title,
-h1,
-.title {
+    h1.title {
+    background-color:none;
+    background:none;
+    color: #000000;
     text-align: center;
-    color: #f4c430 !important;
     font-size: 36px;
     margin-top: 40px;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
 }
 
+     p
+     {
+     background:none;
+     color:#000000;
+     background-color:none;
+     }
+     
     label {
         display: block;
         margin: 18px 0 6px;
@@ -115,7 +122,7 @@ h1,
     <div class="container mt-5">
         <div class="card shadow-lg">
             <div class="card-header text-white bg-primary text-center">
-                <h2>Diabetes Prediction</h2>
+                <h1 class="title">Diabetes Prediction</h1>
                 <p>Enter your health information below</p>
             </div>
             <div class="card-body">
