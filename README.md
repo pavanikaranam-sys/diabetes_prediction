@@ -1,4 +1,4 @@
-# Email Spam Detection
+# Diabetes Prediction
 
 ## 📌 Project Overview
 

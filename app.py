@@ -45,9 +45,9 @@ def predict():
             smoking_encoded['never'],
             smoking_encoded['not current']
         ]
-
+        print("Input Features to Model:", features)
         prediction = model.predict([features])[0]
-        result = "Diabetic" if prediction == 1 else "Not Diabetic"
+        result = "Diabetic Once consult doctor" if prediction == 1 else "Not Diabetic"
 
         return render_template('index.html', prediction=result)
 
@@ -55,6 +55,4 @@ def predict():
         return render_template('index.html', prediction=f"Error: {str(e)}")
    
 if __name__ == '__main__':
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=False, host='0.0.0.0', port=port)
+    app.run(debug=True)
