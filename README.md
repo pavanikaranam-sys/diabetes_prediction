@@ -53,6 +53,15 @@ project/
 ├── README.md
 └── small_diabetes_data.csv
 
+## 🔍 Screenshots
+
+### Homepage
+![Homepage](screenshots/homepage.png)
+
+### Prediction Result
+![Prediction](screenshots/prediction.png)
+
+
 
 ## 🧠 Algorithm Used
 - Random Forest Classifier with 90%+ accuracy on test data.
