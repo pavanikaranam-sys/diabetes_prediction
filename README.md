@@ -1,4 +1,4 @@
-# Diabetes Prediction
+# 🩺️Diabetes Prediction
 
 ## 📌 Project Overview
 
@@ -30,3 +30,7 @@ This machine learning project aims to detect diabetes prediction . The dataset i
 - `matplotlib`
 - `seaborn`
 - `scikit-learn`
+
+## Live checking
+
+      To check your diabetes report live, here is the link : https://diabetes-prediction-app-production-d7c2.up.railway.app/
