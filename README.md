@@ -31,6 +31,6 @@ This machine learning project aims to detect diabetes prediction . The dataset i
 - `seaborn`
 - `scikit-learn`
 
-## Live checking
+## 🔗 Live App
 
       To check your diabetes report live, here is the link : https://diabetes-prediction-app-production-d7c2.up.railway.app/
