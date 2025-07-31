@@ -1,5 +1,12 @@
 # 🩺 Diabetes Prediction Web App
 
+
+## 🔗 Live Demo
+👉 [Click here to try the app](https://diabetes-prediction-app-production-8e65.up.railway.app/)
+
+---
+
+## Project Overview
 This project is a machine learning-based web application that predicts the risk of diabetes using health-related input features. Built using Random Forest Classifier and deployed with Streamlit.
 
 ---
@@ -33,7 +40,7 @@ This project is a machine learning-based web application that predicts the risk 
 ---
 
 ## 🔗 Live Demo
-👉 [Click here to try the app](https://diabetes-prediction-app-production-d7c2.up.railway.app/)
+👉 [Click here to try the app](https://diabetes-prediction-app-production-8e65.up.railway.app/)
 
 ---
 
