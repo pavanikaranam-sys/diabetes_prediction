@@ -14,6 +14,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+
+
 # Title and description
 st.title("🩺 Diabetes Prediction App")
 st.markdown("Welcome to the Diabetes Risk Predictor. Enter your health details below to check your risk.")
