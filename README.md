@@ -2,7 +2,7 @@
 
 
 ## 🔗 Live Demo  
-👉 [Click here to try the app]([https://diabetes-prediction-app-production-8e65.up.railway.app/])
+👉 [Click here to try the app](https://diabetes-prediction-app-production-8e65.up.railway.app/)
 
 
 ---
