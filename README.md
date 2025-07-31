@@ -1,8 +1,9 @@
 # 🩺 Diabetes Prediction Web App
 
 
-## 🔗 Live Demo
+## 🔗 Live Demo  
 👉 [Click here to try the app]([https://diabetes-prediction-app-production-8e65.up.railway.app/])
+
 
 ---
 
@@ -36,11 +37,6 @@ This project is a machine learning-based web application that predicts the risk 
 - Pandas, NumPy, Scikit-learn
 - Streamlit
 - Railway (for deployment)
-
----
-
-## 🔗 Live Demo
-👉 [Click here to try the app](https://diabetes-prediction-app-production-8e65.up.railway.app/)
 
 ---
 
