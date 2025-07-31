@@ -1,36 +1,65 @@
-# 🩺️Diabetes Prediction
+# 🩺 Diabetes Prediction Web App
 
-## 📌 Project Overview
+This project is a machine learning-based web application that predicts the risk of diabetes using health-related input features. Built using Random Forest Classifier and deployed with Streamlit.
 
-This machine learning project aims to detect diabetes prediction . The dataset is preprocessed, visualized, and cleaned, and then used to train a classification model that predicts whether a person diabetic or not.
+---
 
-## ✅ Steps Performed
+## 🚀 Features
+- Predict diabetes based on medical inputs
+- Built using Random Forest Classifier
+- User-friendly UI with Streamlit
+- Hosted for public use via the Railway
 
-1. **Data Collection**  
-   Loaded the dataset (`diabetes_pred.csv`) containing diabetic features and labels.
+---
 
-2. **Data Cleaning**  
-   - Checked for null values  
-   - Handled outliers using the IQR method  
+## 📊 Input Fields
+- Gender
+- Age
+- Hypertension
+- Heart Disease
+- Smoking History
+- BMI
+- HbA1c Level
+- Blood Glucose Level
 
-3. **Data Visualization**  
-   - Used box plots and histograms to explore distributions 
+---
 
-4. **Data Preprocessing**    
-   - Split the dataset into training and testing sets
+## 📦 Tech Stack
+- Python
+- Pandas, NumPy, Scikit-learn
+- Streamlit
+- Railway (for deployment)
 
-5. **Model Selection & Training**  
-   - Used **Logistic Regression** with `class_weight='balanced'`  
-   - Evaluated the model with classification metrics and a confusion matrix
+---
 
-## 📊 Libraries Used
+## 🔗 Live Demo
+👉 [Click here to try the app](https://diabetes-prediction-app-production-d7c2.up.railway.app/)
 
-- `pandas`
-- `numpy`
-- `matplotlib`
-- `seaborn`
-- `scikit-learn`
+---
 
-## 🔗 Live App
+## 📁 Project Structure
+project/
+│
+├── app/
+│ ├── app.py
+│ ├── templates/
+│ └── static/
+├── model/
+│ └── diabetes_model.pkl
+├── notebook/
+│ └── diabetes_prediction.ipynb
+├── requirements.txt
+├── render.yaml
+├── README.md
+└── small_diabetes_data.csv
 
-      To check your diabetes report live, here is the link : https://diabetes-prediction-app-production-d7c2.up.railway.app/
+
+## 🧠 Algorithm Used
+- Random Forest Classifier with 90%+ accuracy on test data.
+
+## 🙋‍♀️ Author
+**Pavani Karanam**  
+[GitHub](https://github.com/pavanikaranam-sys)
+
+## 📝 License
+This project is open-source and free to use.
