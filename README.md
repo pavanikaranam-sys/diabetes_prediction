@@ -59,7 +59,7 @@ project/
 ![Homepage](screenshots/homepage.png)
 
 ### Prediction Result
-![Prediction](screenshots/prediction.png)
+![Prediction](screenshots/Prediction.png)
 
 
 
