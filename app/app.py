@@ -74,6 +74,34 @@ bmi = st.sidebar.number_input("BMI", 10.0, 60.0, 24.0)
 hba1c = st.sidebar.number_input("HbA1c (%)", 3.0, 15.0, 5.8)
 glucose = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
 
+# Define report generation
+def generate_report(user_input, prediction):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align="C")
+    pdf.ln(10)
+
+    pdf.cell(200, 10, txt="User Input Data:", ln=True)
+    for col in user_input.columns:
+        pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
+
+    pdf.ln(10)
+    result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
+    pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
+
+    pdf_path = "diabetes_report.pdf"
+    pdf.output(pdf_path)
+
+    with open(pdf_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+
+    os.remove(pdf_path)
+
+    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
+    return href
+
 # Predict button
 if st.button("Predict"):
     # Encode smoking history
@@ -99,33 +127,6 @@ if st.button("Predict"):
         st.error("🚨 You might be diabetic. Please consult a doctor.")
     else:
         st.success("✅ You are not diabetic.")
-
-    def generate_report(user_input, prediction):
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", size=12)
-
-        pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align="C")
-        pdf.ln(10)
-
-        pdf.cell(200, 10, txt="User Input Data:", ln=True)
-        for col in user_input.columns:
-            pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
-
-        pdf.ln(10)
-        result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
-        pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
-
-        pdf_path = "diabetes_report.pdf"
-        pdf.output(pdf_path)
-
-        with open(pdf_path, "rb") as f:
-            base64_pdf = base64.b64encode(f.read()).decode("utf-8")
-
-        os.remove(pdf_path)
-
-        href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
-        return href
 
     st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
 
