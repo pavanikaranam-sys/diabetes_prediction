@@ -239,7 +239,17 @@ prediction = model.predict(user_input)[0]
 from fpdf import FPDF
 import datetime
 import base64
-user_input = pd.DataFrame({...}, index=[0])
+user_input = pd.DataFrame({
+    'Pregnancies': [pregnancies],
+    'Glucose': [glucose],
+    'BloodPressure': [blood_pressure],
+    'SkinThickness': [skin_thickness],
+    'Insulin': [insulin],
+    'BMI': [bmi],
+    'DiabetesPedigreeFunction': [dpf],
+    'Age': [age],
+    'Sex': [sex_encoded]
+})
 
 def generate_report(user_input, prediction):
     pdf = FPDF()
