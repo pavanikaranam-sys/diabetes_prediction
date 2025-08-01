@@ -202,3 +202,48 @@ st.markdown(
     "<center><small>Made with ❤️ by Pavani Karanam | Random Forest Classifier | 2025</small></center>",
     unsafe_allow_html=True
 )
+
+from fpdf import FPDF
+import datetime
+import base64
+
+def generate_report(user_input, prediction):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align='C')
+    pdf.ln(10)
+
+    pdf.set_font("Arial", '', 12)
+    pdf.cell(200, 10, txt=f"Date: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", ln=True)
+    pdf.ln(10)
+
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(200, 10, txt="User Input Details:", ln=True)
+    pdf.set_font("Arial", '', 12)
+    pdf.ln(5)
+
+    for key, value in user_input.items():
+        pdf.cell(200, 10, txt=f"{key}: {value}", ln=True)
+
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', 12)
+    pdf.set_text_color(0, 0, 255)
+    pdf.cell(200, 10, txt="Prediction Result:", ln=True)
+    pdf.set_font("Arial", '', 12)
+    pdf.set_text_color(0, 0, 0)
+    result_text = "Diabetic" if prediction == 1 else "Non-Diabetic"
+    pdf.cell(200, 10, txt=result_text, ln=True)
+
+    pdf.ln(10)
+    pdf.set_font("Arial", 'I', 10)
+    pdf.cell(200, 10, txt="Note: This prediction is based on input values and is not a clinical diagnosis.", ln=True)
+
+    # Save to PDF and encode
+    pdf_output = pdf.output(dest='S').encode('latin-1')
+    b64_pdf = base64.b64encode(pdf_output).decode('utf-8')
+    href = f'<a href="data:application/octet-stream;base64,{b64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
+    return href
+
+
+st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
