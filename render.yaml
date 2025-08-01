@@ -1,10 +1,8 @@
 services:
-  - type: web
-    name: diabetes-prediction-app
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run app/app.py --server.port $PORT --server.enableCORS false
+  - name: diabetes-app
+    startCommand: streamlit run app/app.py --server.port 8000 --server.enableCORS false
     envVars:
-      - key: PORT
-        value: 8000
+      - key: PYTHONUNBUFFERED
+        value: "true"
+    autoDeploy: true
 
