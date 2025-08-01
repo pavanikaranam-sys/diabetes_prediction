@@ -197,11 +197,7 @@ if st.checkbox("Show health insights and visualizations"):
 
     st.markdown("*These patterns help users see how health factors relate to diabetes.*")
 
-st.markdown("---")
-st.markdown(
-    "<center><small>Made with ❤️ by Pavani Karanam | Random Forest Classifier | 2025</small></center>",
-    unsafe_allow_html=True
-)
+
 
 from fpdf import FPDF
 import datetime
@@ -247,3 +243,9 @@ def generate_report(user_input, prediction):
 
 
 st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
+
+st.markdown("---")
+st.markdown(
+    "<center><small>Made with ❤️ by Pavani Karanam | Random Forest Classifier | 2025</small></center>",
+    unsafe_allow_html=True
+)
