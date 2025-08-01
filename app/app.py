@@ -8,35 +8,10 @@ from fpdf import FPDF
 import base64
 import os
 
-def generate_report(user_input, prediction):
-    pdf = FPDF()
-    pdf.add_page()
-    pdf.set_font("Arial", size=12)
-
-    pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align="C")
-    pdf.ln(10)
-
-    pdf.cell(200, 10, txt="User Input Data:", ln=True)
-    for col in user_input.columns:
-        pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
-
-    pdf.ln(10)
-    result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
-    pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
-
-    pdf_path = "diabetes_report.pdf"
-    pdf.output(pdf_path)
-
-    with open(pdf_path, "rb") as f:
-        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
-
-    os.remove(pdf_path)
-
-    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
-    return href
-
+# Load model
 model = pickle.load(open("model/diabetes_model.pkl", "rb"))
 
+# Set page config
 st.set_page_config(
     page_title="Diabetes Prediction",
     page_icon="🩺",
@@ -44,42 +19,25 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Title and introduction
 st.title("🩺 Diabetes Prediction App")
 st.markdown("Welcome to the Diabetes Risk Predictor. Enter your health details below to check your risk.")
 
+# Load dataset
 df = pd.read_csv("small_diabetes_data.csv")
 
-if st.sidebar.checkbox("Show Data Insights"):
-    st.subheader("🔍 Dataset Overview")
-    st.write(df.head())
-
-    st.subheader("📊 Diabetes Distribution")
-    fig, ax = plt.subplots()
-    sns.countplot(data=df, x='diabetes', ax=ax)
-    st.pyplot(fig)
-
-    st.subheader("📈 BMI vs Glucose Level")
-    fig2, ax2 = plt.subplots()
-    sns.scatterplot(data=df, x='bmi', y='blood_glucose_level', hue='diabetes', ax=ax2)
-    st.pyplot(fig2)
-
-    st.subheader("🧮 Correlation Heatmap")
-    fig3, ax3 = plt.subplots(figsize=(8, 6))
-    sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm', ax=ax3)
-    st.pyplot(fig3)
-
+# Sidebar info
 st.sidebar.title("ℹ️ About")
-st.sidebar.info(
-    """
-    This app predicts the likelihood of diabetes based on user health details.
+st.sidebar.info("""
+This app predicts the likelihood of diabetes based on user health details.
 
-    ✅ Built using a Random Forest model  
-    📊 Includes interactive charts and visualizations  
-    ⚠️ This tool is for educational purposes only.  
-    For medical advice, please consult a healthcare professional.
-    """
-)
+✅ Built using a Random Forest model  
+📊 Includes interactive charts and visualizations  
+⚠️ This tool is for educational purposes only.  
+For medical advice, please consult a healthcare professional.
+""")
 
+# Expander with usage info
 with st.expander("📘 How to Use This App"):
     st.markdown("""
     1. Enter your health information in the fields provided.  
@@ -88,6 +46,7 @@ with st.expander("📘 How to Use This App"):
     4. This app uses a trained Random Forest model for predictions.
     """)
 
+# Sidebar input form
 st.sidebar.header("📝 Patient Health Info")
 
 gender = st.sidebar.selectbox(
@@ -115,12 +74,43 @@ bmi = st.sidebar.number_input("BMI", 10.0, 60.0, 24.0)
 hba1c = st.sidebar.number_input("HbA1c (%)", 3.0, 15.0, 5.8)
 glucose = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
 
+# Define report generation
+def generate_report(user_input, prediction):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align="C")
+    pdf.ln(10)
+
+    pdf.cell(200, 10, txt="User Input Data:", ln=True)
+    for col in user_input.columns:
+        pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
+
+    pdf.ln(10)
+    result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
+    pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
+
+    pdf_path = "diabetes_report.pdf"
+    pdf.output(pdf_path)
+
+    with open(pdf_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+
+    os.remove(pdf_path)
+
+    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
+    return href
+
+# Predict button
 if st.button("Predict"):
+    # Encode smoking history
     smoking_encoded = [0] * 5
     smoking_options = ['current', 'ever', 'former', 'never', 'not current']
     if smoking_history in smoking_options:
         smoking_encoded[smoking_options.index(smoking_history)] = 1
 
+    # Combine all features
     features = [
         gender, age, hypertension, heart_disease, bmi, hba1c, glucose
     ] + smoking_encoded
@@ -140,10 +130,28 @@ if st.button("Predict"):
 
     st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
 
-# Feature Importance
+# Data insights checkbox
+if st.sidebar.checkbox("Show Data Insights"):
+    st.subheader("🔍 Dataset Overview")
+    st.write(df.head())
+
+    st.subheader("📊 Diabetes Distribution")
+    fig, ax = plt.subplots()
+    sns.countplot(data=df, x='diabetes', ax=ax)
+    st.pyplot(fig)
+
+    st.subheader("📈 BMI vs Glucose Level")
+    fig2, ax2 = plt.subplots()
+    sns.scatterplot(data=df, x='bmi', y='blood_glucose_level', hue='diabetes', ax=ax2)
+    st.pyplot(fig2)
+
+    st.subheader("🧮 Correlation Heatmap")
+    fig3, ax3 = plt.subplots(figsize=(8, 6))
+    sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm', ax=ax3)
+    st.pyplot(fig3)
+
+# Feature importance section
 feature_names = ['age', 'bmi', 'blood_glucose_level', 'HbA1c_level', 'gender', 'smoking_history', 'hypertension', 'heart_disease', 'physical_activity_level', 'alcohol_intake', 'sleep_duration']
-
-
 importances = model.feature_importances_
 
 importance_df = pd.DataFrame({
@@ -155,10 +163,10 @@ st.subheader("📊 Model Feature Importance")
 st.dataframe(importance_df, use_container_width=True)
 st.bar_chart(importance_df.set_index("Feature"))
 
+# Health insights
 st.subheader("📈 Health Insights from Dataset")
 
 if st.checkbox("Show health insights and visualizations"):
-    df = pd.read_csv('small_diabetes_data.csv')
     st.markdown("**Age Distribution**")
     st.bar_chart(df['age'].value_counts().sort_index())
 
@@ -175,6 +183,7 @@ if st.checkbox("Show health insights and visualizations"):
 
     st.markdown("*These patterns help users see how health factors relate to diabetes.*")
 
+# Footer
 st.markdown("---")
 st.markdown(
     "<center><small>Made with ❤️ by Pavani Karanam | Random Forest Classifier | 2025</small></center>",
