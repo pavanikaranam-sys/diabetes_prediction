@@ -1,8 +1,9 @@
 streamlit
-scikit-learn
 pandas
 numpy
-matplotlib
-seaborn
-streamlit-authenticator
+scikit-learn
+pyyaml
 fpdf
+streamlit-authenticator
+seaborn
+matplotlib
