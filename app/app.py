@@ -5,6 +5,43 @@ import streamlit as st
 import pickle
 import numpy as np
 
+from fpdf import FPDF
+import base64
+import os
+
+def generate_report(user_input, prediction):
+    # Create PDF
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    pdf.cell(200, 10, txt="Diabetes Prediction Report", ln=True, align="C")
+    pdf.ln(10)
+
+    pdf.cell(200, 10, txt="User Input Data:", ln=True)
+    for col in user_input.columns:
+        pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
+
+    pdf.ln(10)
+    result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
+    pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
+
+    # Save and encode PDF
+    pdf_path = "diabetes_report.pdf"
+    pdf.output(pdf_path)
+
+    with open(pdf_path, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode("utf-8")
+
+    # Clean up the file from server
+    os.remove(pdf_path)
+
+    # Create a download link
+    href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
+    return href
+    
+    
+    
 model = pickle.load(open("model/diabetes_model.pkl", "rb")) 
 # ✅ Set the Streamlit page configuration FIRST
 st.set_page_config(
@@ -197,11 +234,12 @@ if st.checkbox("Show health insights and visualizations"):
 
     st.markdown("*These patterns help users see how health factors relate to diabetes.*")
 
-
+prediction = model.predict(user_input)[0]
 
 from fpdf import FPDF
 import datetime
 import base64
+user_input = pd.DataFrame({...}, index=[0])
 
 def generate_report(user_input, prediction):
     pdf = FPDF()
