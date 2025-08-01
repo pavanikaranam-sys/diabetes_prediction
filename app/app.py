@@ -141,11 +141,8 @@ if st.button("Predict"):
     st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
 
 # Feature Importance
-feature_names = [
-    'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
-    'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
-    'Smoking: former', 'Smoking: never', 'Smoking: not current'
-]
+feature_names = ['age', 'bmi', 'blood_glucose_level', 'HbA1c_level', 'gender', 'smoking_history', 'hypertension', 'heart_disease', 'physical_activity_level', 'alcohol_intake', 'sleep_duration']
+
 
 importances = model.feature_importances_
 
