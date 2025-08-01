@@ -8,73 +8,6 @@ from fpdf import FPDF
 import base64
 import os
 
-# Load model
-model = pickle.load(open("model/diabetes_model.pkl", "rb"))
-
-# Set page config
-st.set_page_config(
-    page_title="Diabetes Prediction",
-    page_icon="🩺",
-    layout="centered",
-    initial_sidebar_state="expanded"
-)
-
-# Title and introduction
-st.title("🩺 Diabetes Prediction App")
-st.markdown("Welcome to the Diabetes Risk Predictor. Enter your health details below to check your risk.")
-
-# Load dataset
-df = pd.read_csv("small_diabetes_data.csv")
-
-# Sidebar info
-st.sidebar.title("ℹ️ About")
-st.sidebar.info("""
-This app predicts the likelihood of diabetes based on user health details.
-
-✅ Built using a Random Forest model  
-📊 Includes interactive charts and visualizations  
-⚠️ This tool is for educational purposes only.  
-For medical advice, please consult a healthcare professional.
-""")
-
-# Expander with usage info
-with st.expander("📘 How to Use This App"):
-    st.markdown("""
-    1. Enter your health information in the fields provided.  
-    2. Click **Predict** to check your diabetes risk.  
-    3. Explore health data insights and trends by checking the box below.  
-    4. This app uses a trained Random Forest model for predictions.
-    """)
-
-# Sidebar input form
-st.sidebar.header("📝 Patient Health Info")
-
-gender = st.sidebar.selectbox(
-    "Gender", [("Male", 1), ("Female", 0)],
-    format_func=lambda x: x[0]
-)[1]
-
-age = st.sidebar.number_input("Age (in years)", 1, 120, 35)
-
-hypertension = st.sidebar.selectbox(
-    "Hypertension", [("No", 0), ("Yes", 1)],
-    format_func=lambda x: x[0]
-)[1]
-
-heart_disease = st.sidebar.selectbox(
-    "Heart Disease", [("No", 0), ("Yes", 1)],
-    format_func=lambda x: x[0]
-)[1]
-
-smoking_history = st.sidebar.selectbox(
-    "Smoking History", ['never', 'former', 'current', 'ever', 'not current']
-)
-
-bmi = st.sidebar.number_input("BMI", 10.0, 60.0, 24.0)
-hba1c = st.sidebar.number_input("HbA1c (%)", 3.0, 15.0, 5.8)
-glucose = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
-
-# Define report generation
 def generate_report(user_input, prediction):
     pdf = FPDF()
     pdf.add_page()
@@ -102,35 +35,20 @@ def generate_report(user_input, prediction):
     href = f'<a href="data:application/octet-stream;base64,{base64_pdf}" download="diabetes_report.pdf">📄 Download Report</a>'
     return href
 
-# Predict button
-if st.button("Predict"):
-    # Encode smoking history
-    smoking_encoded = [0] * 5
-    smoking_options = ['current', 'ever', 'former', 'never', 'not current']
-    if smoking_history in smoking_options:
-        smoking_encoded[smoking_options.index(smoking_history)] = 1
+model = pickle.load(open("model/diabetes_model.pkl", "rb"))
 
-    # Combine all features
-    features = [
-        gender, age, hypertension, heart_disease, bmi, hba1c, glucose
-    ] + smoking_encoded
+st.set_page_config(
+    page_title="Diabetes Prediction",
+    page_icon="🩺",
+    layout="centered",
+    initial_sidebar_state="expanded"
+)
 
-    user_input = pd.DataFrame([features], columns=[
-        'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
-        'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
-        'Smoking: former', 'Smoking: never', 'Smoking: not current'
-    ])
+st.title("🩺 Diabetes Prediction App")
+st.markdown("Welcome to the Diabetes Risk Predictor. Enter your health details below to check your risk.")
 
-    prediction = model.predict(user_input)[0]
+df = pd.read_csv("small_diabetes_data.csv")
 
-    if prediction == 1:
-        st.error("🚨 You might be diabetic. Please consult a doctor.")
-    else:
-        st.success("✅ You are not diabetic.")
-
-    st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
-
-# Data insights checkbox
 if st.sidebar.checkbox("Show Data Insights"):
     st.subheader("🔍 Dataset Overview")
     st.write(df.head())
@@ -150,8 +68,85 @@ if st.sidebar.checkbox("Show Data Insights"):
     sns.heatmap(df.corr(numeric_only=True), annot=True, cmap='coolwarm', ax=ax3)
     st.pyplot(fig3)
 
-# Feature importance section
-feature_names = ['age', 'bmi', 'blood_glucose_level', 'HbA1c_level', 'gender', 'smoking_history', 'hypertension', 'heart_disease', 'physical_activity_level', 'alcohol_intake', 'sleep_duration']
+st.sidebar.title("ℹ️ About")
+st.sidebar.info(
+    """
+    This app predicts the likelihood of diabetes based on user health details.
+
+    ✅ Built using a Random Forest model  
+    📊 Includes interactive charts and visualizations  
+    ⚠️ This tool is for educational purposes only.  
+    For medical advice, please consult a healthcare professional.
+    """
+)
+
+with st.expander("📘 How to Use This App"):
+    st.markdown("""
+    1. Enter your health information in the fields provided.  
+    2. Click **Predict** to check your diabetes risk.  
+    3. Explore health data insights and trends by checking the box below.  
+    4. This app uses a trained Random Forest model for predictions.
+    """)
+
+st.sidebar.header("📝 Patient Health Info")
+
+gender = st.sidebar.selectbox(
+    "Gender", [("Male", 1), ("Female", 0)],
+    format_func=lambda x: x[0]
+)[1]
+
+age = st.sidebar.number_input("Age (in years)", 1, 120, 35)
+
+hypertension = st.sidebar.selectbox(
+    "Hypertension", [("No", 0), ("Yes", 1)],
+    format_func=lambda x: x[0]
+)[1]
+
+heart_disease = st.sidebar.selectbox(
+    "Heart Disease", [("No", 0), ("Yes", 1)],
+    format_func=lambda x: x[0]
+)[1]
+
+smoking_history = st.sidebar.selectbox(
+    "Smoking History", ['never', 'former', 'current', 'ever', 'not current']
+)
+
+bmi = st.sidebar.number_input("BMI", 10.0, 60.0, 24.0)
+hba1c = st.sidebar.number_input("HbA1c (%)", 3.0, 15.0, 5.8)
+glucose = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
+
+if st.button("Predict"):
+    smoking_encoded = [0] * 5
+    smoking_options = ['current', 'ever', 'former', 'never', 'not current']
+    if smoking_history in smoking_options:
+        smoking_encoded[smoking_options.index(smoking_history)] = 1
+
+    features = [
+        gender, age, hypertension, heart_disease, bmi, hba1c, glucose
+    ] + smoking_encoded
+
+    user_input = pd.DataFrame([features], columns=[
+        'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
+        'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
+        'Smoking: former', 'Smoking: never', 'Smoking: not current'
+    ])
+
+    prediction = model.predict(user_input)[0]
+
+    if prediction == 1:
+        st.error("🚨 You might be diabetic. Please consult a doctor.")
+    else:
+        st.success("✅ You are not diabetic.")
+
+    st.markdown(generate_report(user_input, prediction), unsafe_allow_html=True)
+
+# Feature Importance
+feature_names = [
+    'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
+    'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
+    'Smoking: former', 'Smoking: never', 'Smoking: not current'
+]
+
 importances = model.feature_importances_
 
 importance_df = pd.DataFrame({
@@ -163,10 +158,10 @@ st.subheader("📊 Model Feature Importance")
 st.dataframe(importance_df, use_container_width=True)
 st.bar_chart(importance_df.set_index("Feature"))
 
-# Health insights
 st.subheader("📈 Health Insights from Dataset")
 
 if st.checkbox("Show health insights and visualizations"):
+    df = pd.read_csv('small_diabetes_data.csv')
     st.markdown("**Age Distribution**")
     st.bar_chart(df['age'].value_counts().sort_index())
 
@@ -183,7 +178,6 @@ if st.checkbox("Show health insights and visualizations"):
 
     st.markdown("*These patterns help users see how health factors relate to diabetes.*")
 
-# Footer
 st.markdown("---")
 st.markdown(
     "<center><small>Made with ❤️ by Pavani Karanam | Random Forest Classifier | 2025</small></center>",
