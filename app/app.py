@@ -131,7 +131,7 @@ if st.button("Predict"):
 
     user_input = pd.DataFrame([features], columns=[
     'gender', 'age', 'hypertension', 'heart_disease', 'bmi',
-    'Hba1c_level', 'blood_glucose_level', 'smoking_history_current',
+    'HbA1c_level', 'blood_glucose_level', 'smoking_history_current',
     'smoking_history_ever', 'smoking_history_former',
     'smoking_history_never', 'smoking_history_not current'
 ])
