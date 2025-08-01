@@ -126,10 +126,11 @@ if st.button("Predict"):
     ] + smoking_encoded
 
     user_input = pd.DataFrame([features], columns=[
-        'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
-        'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
-        'Smoking: former', 'Smoking: never', 'Smoking: not current'
-    ])
+    'gender', 'age', 'hypertension', 'heart_disease', 'bmi',
+    'hba1c_level', 'blood_glucose_level', 'smoking_history_current',
+    'smoking_history_ever', 'smoking_history_former',
+    'smoking_history_never', 'smoking_history_not current'
+])
 
     prediction = model.predict(user_input)[0]
 
@@ -142,9 +143,10 @@ if st.button("Predict"):
 
 # Feature Importance
 feature_names = [
-    'Gender', 'Age', 'Hypertension', 'Heart Disease', 'BMI',
-    'HbA1c', 'Glucose', 'Smoking: current', 'Smoking: ever',
-    'Smoking: former', 'Smoking: never', 'Smoking: not current'
+    'gender', 'age', 'hypertension', 'heart_disease', 'bmi',
+    'hba1c_level', 'blood_glucose_level', 'smoking_history_current',
+    'smoking_history_ever', 'smoking_history_former',
+    'smoking_history_never', 'smoking_history_not current'
 ]
 
 importances = model.feature_importances_
