@@ -120,6 +120,10 @@ if st.button("Predict"):
     smoking_options = ['current', 'ever', 'former', 'never', 'not current']
     if smoking_history in smoking_options:
         smoking_encoded[smoking_options.index(smoking_history)] = 1
+        
+    gender_encoded = 1 if gender == 'Male' else 0
+    hypertension_encoded = 1 if hypertension == 'Yes' else 0
+    heart_disease_encoded = 1 if heart_disease == 'Yes' else 0
 
     features = [
     gender_encoded, age, hypertension_encoded, heart_disease_encoded,
