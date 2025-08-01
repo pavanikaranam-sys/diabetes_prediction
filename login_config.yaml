@@ -1,0 +1,16 @@
+credentials:
+  usernames:
+    pavani:
+      email: pavani@example.com
+      name: Pavani K
+      password: "$2b$12$eImiTXuWVxfM37uY4JANjQ=="
+
+cookie:
+  expiry_days: 1
+  key: some_signature_key
+  name: some_cookie_name
+
+preauthorized:
+  emails:
+    - pavani@example.com
+

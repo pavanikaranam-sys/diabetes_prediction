@@ -1,32 +1,3 @@
-import streamlit_authenticator as stauth
-
-# Setup credentials
-credentials = {
-    "usernames": {
-        "test_user": {
-            "name": "Test User",
-            "password": stauth.Hasher(["test_password"]).generate()[0]  # One-time hash
-        }
-    }
-}
-
-authenticator = stauth.Authenticate(
-    credentials,
-    "diabetes_app", "auth", cookie_expiry_days=1
-)
-
-name, authentication_status, username = authenticator.login("Login", "main")
-
-if authentication_status == False:
-    st.error("Username or password is incorrect")
-if authentication_status == None:
-    st.warning("Please enter your username and password")
-if authentication_status:
-    authenticator.logout("Logout", "sidebar")
-    st.sidebar.write(f"Welcome {name}!")
-    # your diabetes prediction UI and logic here
-
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
