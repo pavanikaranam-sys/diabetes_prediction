@@ -21,7 +21,7 @@ def generate_report(user_input, prediction):
         pdf.cell(200, 10, txt=f"{col}: {user_input[col].values[0]}", ln=True)
 
     pdf.ln(10)
-    result = "Likely to have Diabetes once consult doctor" if prediction == 1 else "Not likely to have Diabetes"
+    result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
     pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
 
     pdf_path = "diabetes_report.pdf"
