@@ -108,12 +108,12 @@ heart_disease = st.sidebar.selectbox(
 )[1]
 
 smoking_history = st.sidebar.selectbox(
-    "Smoking History", ['never', 'former', 'current', 'ever', 'not current']
+    "Smoking History", ['current','ever','former','never','not current']
 )
 
 bmi = st.sidebar.number_input("BMI", 10.0, 60.0, 24.0)
-HbA1c = st.sidebar.number_input("HbA1c (%)", 3.0, 15.0, 5.8)
-glucose = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
+HbA1c_level = st.sidebar.number_input("HbA1c_level (%)", 3.0, 15.0, 5.8)
+blood_glucose_level = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0, 110.0)
 
 if st.button("Predict"):
     smoking_encoded = [0] * 5
@@ -127,7 +127,7 @@ if st.button("Predict"):
 
     features = [
     gender_encoded, age, hypertension_encoded, heart_disease_encoded,
-    bmi, HbA1c, glucose] + smoking_encoded
+    bmi, HbA1c_level, blood_glucose_level] + smoking_encoded
 
     user_input = pd.DataFrame([features], columns=[
     'gender', 'age', 'hypertension', 'heart_disease', 'bmi',
