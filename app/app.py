@@ -117,7 +117,7 @@ blood_glucose_level = st.sidebar.number_input("Blood Glucose Level", 50.0, 300.0
 
 if st.button("Predict"):
     smoking_encoded = [0] * 5
-    smoking_options = ['current', 'ever', 'former', 'never', 'not current']
+    smoking_options = ['smoking_history_current', 'smoking_history_ever', 'smoking_history_former', 'smoking_history_never', 'smoking_history_not current']
     if smoking_history in smoking_options:
         smoking_encoded[smoking_options.index(smoking_history)] = 1
         
