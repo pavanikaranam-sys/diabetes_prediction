@@ -127,7 +127,7 @@ if st.button("Predict"):
 
     features = [
     gender_encoded, age, hypertension_encoded, heart_disease_encoded,
-    bmi, HbA1c_level, blood_glucose_level] + smoking_encoded
+    bmi,HbA1c_level,blood_glucose_level] + smoking_encoded
 
     user_input = pd.DataFrame([features], columns=[
     'gender', 'age', 'hypertension', 'heart_disease', 'bmi',
