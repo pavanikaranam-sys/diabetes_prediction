@@ -24,7 +24,7 @@ def generate_report(user_input, prediction):
     result = "Likely to have Diabetes" if prediction == 1 else "Not likely to have Diabetes"
     pdf.cell(200, 10, txt=f"Prediction Result: {result}", ln=True)
 
-    pdf_path = "diabetes_report.pdf"] cccccccccccccvvvvvvvvc 
+    pdf_path = "diabetes_report.pdf"
     pdf.output(pdf_path)
 
     with open(pdf_path, "rb") as f:
