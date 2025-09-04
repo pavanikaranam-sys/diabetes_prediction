@@ -36,7 +36,7 @@ This project is a machine learning-based web application that predicts the risk 
 - Python
 - Pandas, NumPy, Scikit-learn
 - Streamlit
-- Railway (for deployment)
+- streamlit community cloud (for deployment)
 
 ---
 
